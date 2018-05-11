@@ -1,0 +1,48 @@
+version: '2.0'
+
+services:
+
+  web1:
+    image: httpd:2-alpine
+    container_name: traefik-demo--web1
+    volumes:
+      - ./public/web1/:/usr/local/apache2/htdocs/
+    labels:
+      - "traefik.enable=true"
+      - "traefik.backend=web1"
+      - "traefik.frontend.rule=Host:web1.traefik-demo.docker.localhost"
+
+  web2:
+    image: httpd:2-alpine
+    container_name: traefik-demo--web2
+    volumes:
+      - ./public/web2/:/usr/local/apache2/htdocs/
+    labels:
+      - "traefik.enable=true"
+      - "traefik.backend=web2"
+      - "traefik.frontend.rule=Host:web2.traefik-demo.docker.localhost"
+
+  cache:
+    image: redis:alpine
+    container_name: traefik-demo--cache
+    
+  database:
+    image: mysql
+    container_name: traefik-demo--database
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+
+  shell:
+    image: bash
+
+  # Traefik
+  proxy:
+    image: traefik
+    container_name: traefik-demo--traefik
+    command: --configFile=/var/traefik/traefik.toml
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - ./traefik.toml:/var/traefik/traefik.toml 
+      - /var/run/docker.sock:/var/run/docker.sock
