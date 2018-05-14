@@ -1,4 +1,4 @@
-logLevel = "INFO"
+logLevel = "DEBUG"
 
 [api]
 dashboard = true
@@ -12,9 +12,7 @@ swarmMode = false
 
 [traefikLog]
   filePath = "/var/logs/traefik/traefik.log"
-  format   = "json"
 
 [accessLog]
   filePath = "/var/logs/traefik/access.log"
-  format = "json"
 

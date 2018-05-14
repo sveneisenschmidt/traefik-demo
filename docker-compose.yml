@@ -17,10 +17,7 @@ services:
 
   # Applications
   web1:
-    image: httpd:2-alpine
-    container_name: traefik-demo--web1
-    volumes:
-      - ./public/web1/:/usr/local/apache2/htdocs/
+    image: emilevauge/whoami
     networks:
       default:
         aliases:
@@ -29,12 +26,10 @@ services:
       - "traefik.enable=true"
       - "traefik.backend=web1"
       - "traefik.frontend.rule=Host:web1.traefik-demo.docker.localhost"
+      - "traefik.passHostHeader=true"
 
   web2:
-    image: httpd:2-alpine
-    container_name: traefik-demo--web2
-    volumes:
-      - ./public/web2/:/usr/local/apache2/htdocs/
+    image: emilevauge/whoami
     networks:
       default:
         aliases:
@@ -43,14 +38,13 @@ services:
       - "traefik.enable=true"
       - "traefik.backend=web2"
       - "traefik.frontend.rule=Host:web2.traefik-demo.docker.localhost"
+      - "traefik.passHostHeader=true"
 
   cache:
     image: redis:alpine
-    container_name: traefik-demo--cache
     
   database:
     image: mysql
-    container_name: traefik-demo--database
     environment:
       MYSQL_ROOT_PASSWORD: root
 

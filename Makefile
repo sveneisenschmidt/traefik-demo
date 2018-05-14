@@ -7,7 +7,7 @@
 	#           inspect DNS resolution and service registrations
 
 up:
-	@docker-compose up -d --remove-orphans
+	@docker-compose up -d --remove-orphans --scale web1=2 --scale web2=2 
 
 stop:
 	@docker-compose stop
