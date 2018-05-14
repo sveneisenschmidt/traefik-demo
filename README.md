@@ -30,11 +30,13 @@ To see a list of available commands run `make`.
 | cache | -  | cache   | 
 | database | - | database | 
 
-## macOS
+## Caveats
 
-Unfortuntely for the time being the host `docker.localhost` was not automatically available as with other UNIX operating systems undr macOS. A simple uodate of `/etc/hosts` did not meet the requirements as wildcards like `*.docker.localhost` are not possible in `HOSTS` files. Therefore it was decided to use `dnsmasq` to add support for the `docker.localhost` domain. 
+### macOS
 
-`dnsmasq` is installed via homebrew, the configuration will add `localhost` as its own DNS nameserver. In the final step we will register our new nameserver as a resolver for DNS in macOS.
+Unfortuntely for the time being the host `docker.localhost` (e.g. `web1.traefik-demo.docker.localhost`) was not  available under macOS by default, as with other UNIX operating systems. A simple update of `/etc/hosts` would have not met the requirements as wildcards like `*.docker.localhost` are not possible through the `HOSTS` file. Therefore it was decided to use `dnsmasq` to add support for the `docker.localhost` domain. 
+
+`dnsmasq` is installed via homebrew, the configuration will add `localhost` as its own DNS nameserver. In the final step we will register our new nameserver as a resolver for DNS inside macOS.
 
 ```shell
 brew install dnsmasq
