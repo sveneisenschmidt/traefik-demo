@@ -2,11 +2,29 @@ version: '2.0'
 
 services:
 
+  # Traefik
+  proxy:
+    image: traefik
+    container_name: traefik-demo--traefik
+    command: --configFile=/var/traefik/traefik.toml
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - ./traefik.toml:/var/traefik/traefik.toml 
+      - ./logs:/var/logs/traefik
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  # Applications
   web1:
     image: httpd:2-alpine
     container_name: traefik-demo--web1
     volumes:
       - ./public/web1/:/usr/local/apache2/htdocs/
+    networks:
+      default:
+        aliases:
+          - web1.traefik-demo.docker.localhost
     labels:
       - "traefik.enable=true"
       - "traefik.backend=web1"
@@ -17,6 +35,10 @@ services:
     container_name: traefik-demo--web2
     volumes:
       - ./public/web2/:/usr/local/apache2/htdocs/
+    networks:
+      default:
+        aliases:
+          - web2.traefik-demo.docker.localhost
     labels:
       - "traefik.enable=true"
       - "traefik.backend=web2"
@@ -34,15 +56,3 @@ services:
 
   shell:
     image: bash
-
-  # Traefik
-  proxy:
-    image: traefik
-    container_name: traefik-demo--traefik
-    command: --configFile=/var/traefik/traefik.toml
-    ports:
-      - "80:80"
-      - "8080:8080"
-    volumes:
-      - ./traefik.toml:/var/traefik/traefik.toml 
-      - /var/run/docker.sock:/var/run/docker.sock

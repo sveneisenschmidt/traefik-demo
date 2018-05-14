@@ -1,3 +1,5 @@
+logLevel = "INFO"
+
 [api]
 dashboard = true
 
@@ -7,4 +9,12 @@ domain = "docker.localhost"
 watch = true
 exposedByDefault = false
 swarmMode = false
+
+[traefikLog]
+  filePath = "/var/logs/traefik/traefik.log"
+  format   = "json"
+
+[accessLog]
+  filePath = "/var/logs/traefik/access.log"
+  format = "json"
 
